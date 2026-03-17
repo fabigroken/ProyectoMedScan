@@ -11,6 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoMedScan">
+        <!-- Permiso necesario para poder usar la cámara del dispositivo -->
+        <uses-permission android:name="android.permission.CAMERA"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">
