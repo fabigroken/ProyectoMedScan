@@ -63,7 +63,14 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
     // Librería para reconocimiento de texto (OCR)
     implementation("com.google.mlkit:text-recognition:16.0.0")
-}
 
+    // Librería para leer códigos de barras
+    implementation("com.google.mlkit:barcode-scanning:17.2.0")
+    // Librería para hacer peticiones HTTP a APIs
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    // Convierte JSON a objetos Kotlin
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+}

@@ -10,26 +10,39 @@
     app:navGraph="@navigation/nav_graph" />
 =======
 
-<!-- Elementos colocados en vertical -->
-<!-- Espaciado interno -->
+<!-- Layout simple para pruebas de escaneo OCR y código de barras -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:padding="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Botón para iniciar el escaneo -->
+    <!-- Botón para escanear texto (OCR) -->
     <Button
-        android:id="@+id/botonEscanear"
+        android:id="@+id/botonOCR"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Escanear medicamento"/>
+        android:text="Escanear texto (OCR)" />
 
-    <!-- Texto donde se mostrará el resultado del OCR -->
+    <!-- Botón para escanear código de barras -->
+    <Button
+        android:id="@+id/botonBarcode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Escanear código de barras" />
+
+    <!-- Resultado -->
     <TextView
         android:id="@+id/textoResultado"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:text="Resultado aquí"/>
 </LinearLayout>
 >>>>>>> 637d3a3 (OCR básico y preparación de MainActivity)
+=======
+        android:text="Resultado aquí"
+        android:paddingTop="20dp"/>
+
+</LinearLayout>
+>>>>>>> 4fb8823 (Implementación OCR + escaneo código barras + conexión API)
