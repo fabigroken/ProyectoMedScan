@@ -2,6 +2,8 @@ package com.fabigroken.proyectomedscan
 
 // Importaciones necesarias para trabajar con cámara, interfaz y OCR
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 <<<<<<< HEAD
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +13,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 
 // Librerías de ML Kit para reconocimiento de texto (OCR)
 import com.google.mlkit.vision.common.InputImage
@@ -20,18 +23,19 @@ import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 
 // Librerías para escaneo de códigos de barras
 import com.google.mlkit.vision.barcode.BarcodeScanning
-import com.google.mlkit.vision.barcode.common.Barcode
-
-// Importaciones para la conexión con la API (peticiones HTTP)
-import com.fabigroken.proyectomedscan.network.RetrofitClient
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
-    // Variable donde se mostrará el resultado final en pantalla
+    // Aquí se mostrará todo lo que saque el OCR o la IA
     private lateinit var textoResultado: TextView
+
+    // Para saber si el usuario quiere OCR o código de barras
+    private var modoEscaneo = "OCR"
+
+    // NECESARIO PARA QUE NO CRASHEE
+    private lateinit var photoFile: File
+    private lateinit var photoUri: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,53 +45,55 @@ class MainActivity : AppCompatActivity() {
 }
 =======
 
+        Thread.setDefaultUncaughtExceptionHandler { _, e ->
+            e.printStackTrace()
+        }
+
         // Comprobamos si el usuario ha dado permiso para usar la cámara
-        // Si no lo ha dado, se solicita al abrir la aplicacion
+        // Si no lo ha dado, se pide al abrir la app
         if (checkSelfPermission(android.Manifest.permission.CAMERA)
             != android.content.pm.PackageManager.PERMISSION_GRANTED) {
 
             requestPermissions(arrayOf(android.Manifest.permission.CAMERA), 100)
         }
 
-        // Se carga la interfaz definida en XML
+        // Cargamos la interfaz
         setContentView(R.layout.activity_main)
 
-        // Se obtienen los botones definidos en el layout
+        // Botones del layout
         val botonOCR = findViewById<Button>(R.id.botonOCR)
         val botonBarcode = findViewById<Button>(R.id.botonBarcode)
 
-        // Se inicializa el TextView donde se mostrará el resultado
+        // Donde se mostrará el resultado final
         textoResultado = findViewById(R.id.textoResultado)
 
-        // Configuración del botón de escaneo OCR (texto)
+        // Botón para OCR normal
         botonOCR.setOnClickListener {
             modoEscaneo = "OCR"
             abrirCamara()
         }
 
-        // Configuración del botón de escaneo de código de barras
+        // Botón para leer códigos de barras
         botonBarcode.setOnClickListener {
             modoEscaneo = "BARCODE"
             abrirCamara()
         }
     }
 
-    // Launcher para abrir la cámara y recibir el resultado
+    // Abre la cámara y espera la foto
     private val launcherCamara = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
 
-        // Verificamos que la captura fue correcta
-        if (result.resultCode == RESULT_OK && result.data != null) {
+        // Si la foto se tomó bien
+        if (result.resultCode == RESULT_OK) {
 
-            val extras = result.data!!.extras
-
-            // Se obtiene la imagen en formato Bitmap
-            val imagen = extras?.get("data") as? Bitmap
+            // CARGAMOS LA FOTO REAL (NO MINIATURA)
+            val imagen = BitmapFactory.decodeFile(photoFile.absolutePath)
 
             if (imagen != null) {
 
-                // Dependiendo del modo seleccionado, usamos OCR o código de barras
+                // Dependiendo del modo, hacemos una cosa u otra
                 if (modoEscaneo == "BARCODE") {
                     escanearCodigoBarras(imagen)
                 } else {
@@ -95,8 +101,8 @@ class MainActivity : AppCompatActivity() {
                 }
 
             } else {
-                // Control de error si la imagen no se pudo obtener
-                textoResultado.text = "Error: no se pudo obtener la imagen (bitmap null)"
+                // Si por lo que sea no llega la imagen
+                textoResultado.text = "Error: no se pudo obtener la imagen"
             }
 
         } else {
@@ -105,16 +111,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Método que abre la cámara del dispositivo mediante un Intent
+    // Método que abre la cámara del dispositivo
     private fun abrirCamara() {
+
+        // CREAMOS ARCHIVO TEMPORAL PARA LA FOTO REAL
+        photoFile = File.createTempFile("foto_", ".jpg", cacheDir)
+
+        photoUri = FileProvider.getUriForFile(
+            this,
+            "${packageName}.provider",
+            photoFile
+        )
+
         val intent = android.content.Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+
         launcherCamara.launch(intent)
     }
 
-    // Método principal de OCR que analiza la imagen y extrae texto
+    // OCR: extrae texto de la imagen
     private fun reconocerTexto(bitmap: Bitmap) {
 
-        // Convertimos el Bitmap en un formato que ML Kit pueda procesar
+        // Convertimos el Bitmap a formato que ML Kit entiende
         val image = InputImage.fromBitmap(bitmap, 0)
 
         // Creamos el reconocedor de texto
@@ -124,86 +142,62 @@ class MainActivity : AppCompatActivity() {
         recognizer.process(image)
             .addOnSuccessListener { visionText ->
 
-                // Si no se detecta texto
+                // Si no hay texto, avisamos
                 if (visionText.text.isEmpty()) {
                     textoResultado.text = "No se detectó texto"
                 } else {
+
+                    // Texto tal cual lo detecta ML Kit
                     val textoDetectado = visionText.text
 
-                    // Limpieza básica del texto su formato en si
+                    // Limpieza rápida para evitar saltos raros
                     val textoLimpio = limpiarTextoOCR(textoDetectado)
 
-                    // Se envía el texto a la API para obtener información del medicamento
-                    buscarInfoMedicamento(textoLimpio)
+                    // Indicamos que estamos enviando todo a la IA
+                    textoResultado.text = "Analizando texto con IA..."
+
+                    // Mandamos el texto a OpenAI
+                    analizarConIA(textoLimpio)
                 }
             }
             .addOnFailureListener { e ->
-                // Error en el OCR
-                textoResultado.text = "Error OCR: " + e.message
+                // Si falla el OCR
+                textoResultado.text = "Error OCR: ${e.message}"
             }
     }
 
-    // Método para limpiar el texto obtenido del OCR
+    // Limpieza básica del texto del OCR
     private fun limpiarTextoOCR(texto: String): String {
         return texto
             .replace("\n", " ")
-            .replace("\\s+".toRegex(), " ")
             .trim()
     }
 
-    // Método que realiza la llamada a la API externa usando Retrofit
-    private fun buscarInfoMedicamento(texto: String) {
-
-        // Se construye la petición a la API
-        val call = RetrofitClient.apiService.buscarMedicamento(texto)
-        call.enqueue(object : Callback<Any> {
-
-            // Se ejecuta cuando la API responde correctamente
-            override fun onResponse(call: Call<Any>, response: Response<Any>) {
-
-                if (response.isSuccessful) {
-                    // Se muestra la respuesta en pantalla
-                    textoResultado.text = "Resultado API:\n" + response.body().toString()
-                } else {
-                    textoResultado.text = "No se encontró información"
-                }
-            }
-
-            // Se ejecuta si hay fallo de red o error en la petición
-            override fun onFailure(call: Call<Any>, t: Throwable) {
-                textoResultado.text = "Error de conexión: " + t.message
-            }
-        })
-    }
-
-    // Para indicar qué tipo de escaneo se está utilizando
-    private var modoEscaneo = "OCR"
-
-    // Método para detectar códigos de barras en la imagen
+    // Escaneo de códigos de barras
     private fun escanearCodigoBarras(bitmap: Bitmap) {
 
         val image = InputImage.fromBitmap(bitmap, 0)
 
-        // Cliente de ML Kit para escaneo de códigos
+        // Cliente de ML Kit para leer códigos
         val scanner = BarcodeScanning.getClient()
 
         scanner.process(image)
             .addOnSuccessListener { barcodes ->
 
-                // Si detecta al menos un código
+                // Si detecta al menos uno
                 if (barcodes.isNotEmpty()) {
 
-                    // Se obtiene el valor del primer código detectado
+                    // Cogemos el primer código detectado
                     val codigo = barcodes[0].rawValue ?: ""
 
-                    // Se muestra el código detectado
+                    // Mostramos el código detectado
                     textoResultado.text = "Código detectado: $codigo\nBuscando también por texto..."
 
-                    // Usamos el OCR como respaldo
+                    // Hacemos OCR igualmente para sacar info del envase
                     reconocerTexto(bitmap)
 
                 } else {
-                    // Si no hay código, se usa OCR directamente
+                    // Si no detecta código, tiramos de OCR directamente
                     reconocerTexto(bitmap)
                 }
             }
@@ -211,5 +205,23 @@ class MainActivity : AppCompatActivity() {
                 textoResultado.text = "Error escaneando código"
             }
     }
+<<<<<<< HEAD
 }
 >>>>>>> 637d3a3 (OCR básico y preparación de MainActivity)
+=======
+
+    // Envia el texto completo del OCR a la IA para que lo entienda
+    private fun analizarConIA(texto: String) {
+
+        val ia = com.fabigroken.proyectomedscan.network.OpenAIService()
+
+        ia.analizarTexto(texto) { resultado ->
+
+            runOnUiThread {
+                textoResultado.text = resultado
+            }
+        }
+    }
+
+}
+>>>>>>> c313b67 (IA funcional de medicamentos scanner foto y barras)

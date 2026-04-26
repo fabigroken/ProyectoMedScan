@@ -73,4 +73,14 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     // Convierte JSON a objetos Kotlin
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+
+    // Librería OkHttp para hacer peticiones HTTP a Gemini
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
+    // Librería de Firebase Firestore
+    implementation("com.google.firebase:firebase-firestore-ktx:24.10.0")
+
+
+
 }

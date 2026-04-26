@@ -31,6 +31,18 @@
             </intent-filter>
 
         </activity>
+        <!-- FileProvider permite que la cámara guarde la foto REAL en un archivo.
+            Sin este bloque, la app CRASHEA al mandar la foto -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
     </application>
 
 </manifest>
