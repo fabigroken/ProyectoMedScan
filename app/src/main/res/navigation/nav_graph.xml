@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/escaneoFragment">
+
+    <fragment
+        android:id="@+id/escaneoFragment"
+        android:name="com.fabigroken.proyectomedscan.EscaneoFragment"
+        android:label="Escaneo">
+        <action
+            android:id="@+id/action_escaneoFragment_to_resultadoFragment"
+            app:destination="@id/resultadoFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/resultadoFragment"
+        android:name="com.fabigroken.proyectomedscan.ResultadoFragment"
+        android:label="Resultado">
+        <action
+            android:id="@+id/action_resultadoFragment_to_historialFragment"
+            app:destination="@id/historialFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/historialFragment"
+        android:name="com.fabigroken.proyectomedscan.HistorialFragment"
+        android:label="Historial">
+        <action
+            android:id="@+id/action_historialFragment_to_detalleFragment"
+            app:destination="@id/detalleFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detalleFragment"
+        android:name="com.fabigroken.proyectomedscan.DetalleFragment"
+        android:label="Detalle" />
+</navigation>
