@@ -3,6 +3,7 @@ package com.fabigroken.proyectomedscan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -32,12 +33,14 @@ class MedicamentoAdapter(
         private val tvNombre: TextView = itemView.findViewById(R.id.tvNombreMedicamento)
         private val tvPrincipio: TextView = itemView.findViewById(R.id.tvPrincipioActivo)
         private val tvFecha: TextView = itemView.findViewById(R.id.tvFechaEscaneo)
+        private val btnMasDetalles: Button = itemView.findViewById(R.id.btnMasDetalles)
 
         fun bind(item: Medicamento, onItemClick: (Medicamento) -> Unit) {
             tvNombre.text = item.nombre
             tvPrincipio.text = "Principio activo: ${item.principioActivo}"
             tvFecha.text = "Fecha: ${item.fechaEscaneo}"
-            itemView.setOnClickListener { onItemClick(item) }
+            btnMasDetalles.setOnClickListener { onItemClick(item) }
         }
     }
 }
+

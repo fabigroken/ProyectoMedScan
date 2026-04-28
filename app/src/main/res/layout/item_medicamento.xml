@@ -1,31 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="12dp"
-    android:layout_marginBottom="8dp"
-    android:background="?android:attr/selectableItemBackground">
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp">
 
-    <TextView
-        android:id="@+id/tvNombreMedicamento"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:text="Nombre medicamento" />
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/tvPrincipioActivo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="4dp"
-        android:text="Principio activo" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvFechaEscaneo"
+            <TextView
+                android:id="@+id/tvNombreMedicamento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="22sp"
+                android:text="Nombre medicamento" />
+
+            <TextView
+                android:id="@+id/tvPrincipioActivo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:textSize="16sp"
+                android:text="Principio activo" />
+
+            <TextView
+                android:id="@+id/tvFechaEscaneo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:textSize="16sp"
+                android:text="Fecha" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnMasDetalles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:layout_marginStart="10dp"
+            android:text="Más detalles"
+            android:textAllCaps="false"
+            android:textColor="@color/btn_text"
+            android:textSize="11sp"
+            app:backgroundTint="@color/btn_blue_dark"
+            android:backgroundTintMode="src_in" />
+    </LinearLayout>
+
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="4dp"
-        android:text="Fecha" />
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:background="#BDBDBD" />
 </LinearLayout>
+

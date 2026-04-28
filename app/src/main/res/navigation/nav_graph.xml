@@ -37,6 +37,9 @@
     <fragment
         android:id="@+id/detalleFragment"
         android:name="com.fabigroken.proyectomedscan.DetalleFragment"
-        android:label="Detalle" />
+        android:label="Detalle">
+        <argument
+            android:name="medicamentoId"
+            app:argType="string" />
+    </fragment>
 </navigation>
-

@@ -34,6 +34,19 @@ class MedicamentoRepository {
             .addOnFailureListener { onError(it) }
     }
 
+    fun obtenerMedicamentoPorId(
+        id: String,
+        onSuccess: (Medicamento?) -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+        collection.document(id)
+            .get()
+            .addOnSuccessListener { doc ->
+                onSuccess(doc.toObject(Medicamento::class.java))
+            }
+            .addOnFailureListener { onError(it) }
+    }
+
     fun actualizarMedicamento(
         medicamento: Medicamento,
         onSuccess: () -> Unit,
@@ -44,7 +57,6 @@ class MedicamentoRepository {
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { onError(it) }
     }
-
 
     fun eliminarMedicamento(
         id: String,

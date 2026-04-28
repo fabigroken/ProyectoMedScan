@@ -9,16 +9,18 @@
         android:id="@+id/tvTituloHistorial"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Historial de medicamentos"
+        android:gravity="center"
+        android:text="HISTORIAL DE MEDICAMENTOS"
         android:textStyle="bold"
-        android:textSize="20sp"
-        android:paddingBottom="12dp" />
+        android:textSize="28sp"
+        android:paddingBottom="16dp" />
 
     <TextView
         android:id="@+id/tvEmptyHistorial"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="No hay medicamentos guardados."
+        android:text="NO HAY MEDICAMENTOS GUARDADOS."
+        android:gravity="center"
         android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
