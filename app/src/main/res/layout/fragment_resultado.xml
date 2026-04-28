@@ -1,14 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ResultadoFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-</FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Resultado del medicamento"
+            android:textStyle="bold"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvResultadoNombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Nombre: Ibuprofeno 600" />
+
+        <TextView
+            android:id="@+id/tvResultadoPrincipio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Principio activo: Ibuprofeno" />
+
+        <TextView
+            android:id="@+id/tvResultadoDosis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dosis recomendada: 1 comprimido cada 8 horas" />
+
+        <Button
+            android:id="@+id/btnGuardarDemo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Guardar en Firestore" />
+
+        <Button
+            android:id="@+id/btnIrHistorialDesdeResultado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Ir a historial" />
+    </LinearLayout>
+</ScrollView>

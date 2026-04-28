@@ -11,6 +11,9 @@
         <action
             android:id="@+id/action_escaneoFragment_to_resultadoFragment"
             app:destination="@id/resultadoFragment" />
+        <action
+            android:id="@+id/action_escaneoFragment_to_historialFragment"
+            app:destination="@id/historialFragment" />
     </fragment>
 
     <fragment
@@ -36,3 +39,4 @@
         android:name="com.fabigroken.proyectomedscan.DetalleFragment"
         android:label="Detalle" />
 </navigation>
+
