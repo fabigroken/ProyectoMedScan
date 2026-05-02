@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/escaneoFragment">
+
+    <!-- Pantalla inicial  -->
+    <fragment
+        android:id="@+id/escaneoFragment"
+        android:name="com.fabigroken.proyectomedscan.EscaneoFragment"
+        android:label="Escaneo">
+
+        <!-- Ir al historial -->
+        <action
+            android:id="@+id/action_escaneoFragment_to_historialFragment"
+            app:destination="@id/historialFragment" />
+
+        <!-- Pantalla de escaneo con IA -->
+        <action
+            android:id="@+id/action_escaneoFragment_to_escaneoIAFragment"
+            app:destination="@id/escaneoIAFragment" />
+    </fragment>
+
+    <!-- Pantalla de escaneo con IA  -->
+    <fragment
+        android:id="@+id/escaneoIAFragment"
+        android:name="com.fabigroken.proyectomedscan.EscaneoIAFragment"
+        android:label="Escaneo IA" />
+
+    <!-- Historial -->
+    <fragment
+        android:id="@+id/historialFragment"
+        android:name="com.fabigroken.proyectomedscan.HistorialFragment"
+        android:label="Historial">
+
+        <action
+            android:id="@+id/action_historialFragment_to_detalleFragment"
+            app:destination="@id/detalleFragment" />
+    </fragment>
+
+    <!-- Detalle -->
+    <fragment
+        android:id="@+id/detalleFragment"
+        android:name="com.fabigroken.proyectomedscan.DetalleFragment"
+        android:label="Detalle">
+
+        <argument
+            android:name="medicamentoId"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

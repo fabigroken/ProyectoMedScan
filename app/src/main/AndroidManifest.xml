@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!-- Archivo principal donde se configura la app -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Permiso para usar la cámara del dispositivo -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <!-- Permiso para acceder a internet -->
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -11,15 +18,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoMedScan">
+
+        <!-- Activity principal que se ejecuta al abrir la app -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
+
+            <!-- Indica que esta es la pantalla inicial -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+        <!-- FileProvider permite que la cámara guarde la foto REAL en un archivo.
+            Sin este bloque, la app CRASHEA al mandar la foto -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
     </application>
 
 </manifest>

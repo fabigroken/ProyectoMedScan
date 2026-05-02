@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "858460422833",
+    "project_id": "medscan-5852e",
+    "storage_bucket": "medscan-5852e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858460422833:android:b17effc1b2d0c9a7ac9890",
+        "android_client_info": {
+          "package_name": "com.fabigroken.proyectomedscan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwCNwGKsOfvVfawoAouFRIduyrMnMfeH0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

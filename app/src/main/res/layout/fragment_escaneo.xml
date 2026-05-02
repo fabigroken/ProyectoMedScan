@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:gravity="center"
+    android:background="@color/colorBackground">
+
+    <!-- Títulos -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/TituloPantalla"
+        android:text="MEDSCAN" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/SubtituloPantalla"
+        android:text="PANTALLA DE ESCANEO"
+        android:paddingBottom="24dp" />
+    <!-- Botón para ir al historial de medicamentos escaneados -->
+    <Button
+        android:id="@+id/btnIrHistorial"
+        style="@style/BotonMedScan"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Ver historial" />
+    <!-- Botón para ir a la pantalla de escaneo con IA -->
+    <Button
+        android:id="@+id/btnIrEscaneoIA"
+        style="@style/BotonMedScan"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:text="Escanear medicamento (IA)" />
+</LinearLayout>
