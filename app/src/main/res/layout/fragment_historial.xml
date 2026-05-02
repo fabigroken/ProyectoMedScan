@@ -3,28 +3,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
-
+    android:padding="16dp"
+    android:background="@color/colorBackground">
+    <!-- Botón para volver -->
+    <Button
+        android:id="@+id/btnVolver"
+        style="@style/BotonMedScan"
+        android:layout_width="wrap_content"
+        android:text="← Volver" />
+    <!-- Título del historial -->
     <TextView
         android:id="@+id/tvTituloHistorial"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        style="@style/TituloPantalla"
         android:text="HISTORIAL DE MEDICAMENTOS"
-        android:textStyle="bold"
-        android:textSize="28sp"
-        android:paddingBottom="16dp" />
-
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp" />
+    <!-- Mensaje cuando no hay medicamentos -->
     <TextView
         android:id="@+id/tvEmptyHistorial"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="NO HAY MEDICAMENTOS GUARDADOS."
+        android:text="No hay medicamentos guardados."
         android:gravity="center"
-        android:visibility="gone" />
-
+        android:textColor="@color/colorTextSecondary"
+        android:visibility="gone"
+        android:paddingBottom="8dp" />
+    <!-- Lista del historial -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvHistorial"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 </LinearLayout>

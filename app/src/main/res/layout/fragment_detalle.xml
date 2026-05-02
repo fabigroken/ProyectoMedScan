@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,100 +10,172 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <TextView
-            android:layout_width="match_parent"
+        <!-- BOTÓN VOLVER -->
+        <Button
+            android:id="@+id/btnVolver"
+            style="@style/BotonMedScan"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DETALLE DE MEDICAMENTO"
-            android:textStyle="bold"
-            android:textSize="28sp"
-            android:gravity="center"
-            android:paddingBottom="20dp" />
+            android:text="← Volver" />
 
+        <!-- TÍTULO -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ID"
-            android:textStyle="bold" />
+            style="@style/TituloPantalla"
+            android:text="DETALLE DE MEDICAMENTO"
+            android:paddingTop="12dp"
+            android:paddingBottom="16dp" />
+
+        <!-- ID -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/EtiquetaCampo"
+            android:text="ID" />
 
         <EditText
             android:id="@+id/etId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="false"
-            android:focusable="false" />
+            style="@style/CampoTexto"
+            android:enabled="false" />
 
+        <!-- NOMBRE -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="NOMBRE"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp" />
+            style="@style/EtiquetaCampo"
+            android:layout_marginTop="10dp"
+            android:text="NOMBRE" />
 
         <EditText
             android:id="@+id/etNombre"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            style="@style/CampoTexto" />
 
+        <!-- PRINCIPIO ACTIVO -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="PRINCIPIO ACTIVO"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp" />
+            style="@style/EtiquetaCampo"
+            android:layout_marginTop="10dp"
+            android:text="PRINCIPIO ACTIVO" />
 
         <EditText
             android:id="@+id/etPrincipioActivo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            style="@style/CampoTexto" />
 
+        <!-- FRECUENCIA -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="COMO TOMAR (DOSIS)"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp" />
+            style="@style/EtiquetaCampo"
+            android:layout_marginTop="10dp"
+            android:text="FRECUENCIA Y CANTIDAD" />
 
         <EditText
-            android:id="@+id/etDosis"
+            android:id="@+id/etFrecuencia"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            style="@style/CampoTexto" />
 
+        <!-- PARA QUÉ SIRVE -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ADVERTENCIAS / CUANDO TOMAR"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp" />
+            style="@style/EtiquetaCampo"
+            android:layout_marginTop="10dp"
+            android:text="PARA QUÉ SIRVE" />
+
+        <EditText
+            android:id="@+id/etParaQueSirve"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/CampoTexto" />
+
+        <!-- CONTRAINDICACIONES -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/EtiquetaCampo"
+            android:layout_marginTop="10dp"
+            android:text="CONTRAINDICACIONES" />
+
+        <EditText
+            android:id="@+id/etContraindicaciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/CampoTexto" />
+
+        <!-- EFECTOS SECUNDARIOS -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/EtiquetaCampo"
+            android:layout_marginTop="10dp"
+            android:text="EFECTOS SECUNDARIOS" />
+
+        <EditText
+            android:id="@+id/etEfectosSecundarios"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/CampoTexto" />
+
+        <!-- ADVERTENCIAS -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/EtiquetaCampo"
+            android:layout_marginTop="10dp"
+            android:text="ADVERTENCIAS" />
 
         <EditText
             android:id="@+id/etAdvertencias"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/btnActualizar"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:text="ACTUALIZAR"
-            android:textAllCaps="false"
-            android:textColor="@color/btn_text"
-            app:backgroundTint="@color/btn_blue_dark"
-            android:backgroundTintMode="src_in" />
+            style="@style/CampoTexto" />
 
+        <!-- REQUIERE RECETA -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/EtiquetaCampo"
+            android:layout_marginTop="10dp"
+            android:text="REQUIERE RECETA" />
+
+        <EditText
+            android:id="@+id/etReceta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/CampoTexto" />
+
+        <!-- LABORATORIO -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/EtiquetaCampo"
+            android:layout_marginTop="10dp"
+            android:text="LABORATORIO" />
+
+        <EditText
+            android:id="@+id/etLaboratorio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/CampoTexto" />
+
+        <!-- BOTÓN ELIMINAR -->
         <Button
             android:id="@+id/btnEliminar"
+            style="@style/BotonMedScan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:text="ELIMINAR"
-            android:textAllCaps="false"
-            android:textColor="@color/btn_text"
-            app:backgroundTint="@color/btn_blue_dark"
-            android:backgroundTintMode="src_in" />
+            android:text="Eliminar" />
+
     </LinearLayout>
 </ScrollView>
-
-

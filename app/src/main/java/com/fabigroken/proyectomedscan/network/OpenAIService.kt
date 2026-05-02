@@ -6,113 +6,110 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.io.IOException
 
-// Servicio que se encarga de hablar con la IA (Gemini)
-// Recibe el texto del OCR y devuelve la información resumida del medicamento
+// Servicio que manda el texto del OCR a la IA y devuelve la respuesta
 class OpenAIService {
 
-    // Cliente HTTP para enviar la petición a la IA
+    // Cliente HTTP para hacer la petición
     private val client = OkHttpClient()
 
-    // API Key de Google Gemini
-    private val apiKey = "AIzaSyD3SAgN7-VIgTkVRBnESbjnSb1d__p2ffo"
+    // API Key de Groq
+    private val apiKey = "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"
 
-    // Función que analiza el texto del medicamento usando Gemini
+    // Función que envía el texto a la IA y recibe la respuesta
     fun analizarTexto(texto: String, callback: (String) -> Unit) {
 
-        // Prompt que le enviamos a la IA para que responda corto y claro
+        // Prompt que le dice a la IA cómo debe responder
         val prompt = """
-            Tengo el nombre de un medicamento. 
-            Quiero que completes la información REAL aunque no esté en el texto OCR.
-
-            IMPORTANTE:
-            - Responde en formato corto.
-            - No des explicaciones largas.
-            - No inventes datos si no existen.
-            - Si falta algo, pon "No disponible", pero igual buscalo por todas las webs para saber que hace ya que si o si necesitamos una respuesta.
-            - Tambien en lo de no deberian tomarlo se un poco mas normal en tu respuesta no tanto tecnisismo en las palabras
-            - Para que sirve pon textos que se entiendan igual no uses muchos tecnisismos si es para una ulcera ulcera pero no digas que es para atacar una bacteria en concreto o asi
-            
-            Texto OCR:
-            $texto
-
-            Devuelve SOLO esto:
-            Nombre:
-            Concentración:
-            Frecuencia y cantidad:
-            Para qué sirve:
-            Personas que no deberian tomarlo :
+        Tengo el nombre de un medicamento. 
+        Completa la información usando tu conocimiento médico general y la normativa de España.
+        
+        REGLAS IMPORTANTES:
+        - NO uses información del envase como: "40 comprimidos", "vía oral", etc.
+        - Si el OCR trae cantidades del envase, ignóralas.
+        - La posología debe ser real, no lo que diga la caja.
+        - No cambies los títulos ni agregues texto extra.
+        - Para "Requiere receta", usa la normativa española.
+        
+        FORMATO EXACTO:
+        
+        Nombre:
+        Concentración:
+        Frecuencia y cantidad:
+        Para qué sirve:
+        Personas que no deberían tomarlo:
+        Principio activo:
+        Descripción general:
+        Contraindicaciones:
+        Efectos secundarios:
+        Advertencias:
+        Requiere receta:
+        Laboratorio:
+        
+        Texto OCR:
+        $texto
         """.trimIndent()
 
-        // Aquí empezamos a construir el JSON que pide Gemini
+        // Construcción del JSON para la API de Groq
         val json = JSONObject()
-        val contents = org.json.JSONArray()
-        val contentObj = JSONObject()
-        val parts = org.json.JSONArray()
-        val textPart = JSONObject()
+        json.put("model", "llama-3.1-8b-instant")
 
-        // Metemos el prompt dentro del JSON
-        textPart.put("text", prompt)
-        parts.put(textPart)
+        val messages = org.json.JSONArray()
+        val userMsg = JSONObject()
 
-        // Indicamos que este mensaje lo envía el usuario
-        contentObj.put("role", "user")
-        contentObj.put("parts", parts)
+        // Mensaje que enviamos a la IA
+        userMsg.put("role", "user")
+        userMsg.put("content", prompt)
+        messages.put(userMsg)
 
-        // Añadimos todo al contenido principal
-        contents.put(contentObj)
-        json.put("contents", contents)
+        json.put("messages", messages)
 
-        // Convertimos el JSON en cuerpo de la petición
+        // Cuerpo de la petición
         val body = json.toString()
             .toRequestBody("application/json".toMediaType())
 
-        // URL del modelo de Gemini que estamos usando
-        val url =
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=$apiKey"
-
-        // Construimos la petición HTTP
+        // Petición HTTP a Groq
         val request = Request.Builder()
-            .url(url)
+            .url("https://api.groq.com/openai/v1/chat/completions")
             .post(body)
+            .addHeader("Authorization", "Bearer $apiKey")
+            .addHeader("Content-Type", "application/json")
             .build()
 
-        // Enviamos la petición a la IA
+        // Ejecutar la petición
         client.newCall(request).enqueue(object : Callback {
 
-            // Si falla la conexión o no hay internet
+            // Error de red
             override fun onFailure(call: Call, e: IOException) {
                 callback("Error IA red: ${e.message}")
             }
 
-            // Si la IA responde
+            // Respuesta de la IA
             override fun onResponse(call: Call, response: Response) {
 
                 val responseBody = response.body?.string()
 
-                // Si la IA devuelve error, lo mostramos
+                // Si la API falla
                 if (!response.isSuccessful || responseBody == null) {
                     callback("Error IA HTTP ${response.code}: $responseBody")
                     return
                 }
 
                 try {
-                    // Convertimos la respuesta en JSON
+                    // Parseamos la respuesta JSON
                     val jsonResp = JSONObject(responseBody)
 
-                    // Aquí está el texto generado por Gemini
+                    // Extraemos el texto generado por la IA
                     val output = jsonResp
-                        .getJSONArray("candidates")
+                        .getJSONArray("choices")
                         .getJSONObject(0)
-                        .getJSONObject("content")
-                        .getJSONArray("parts")
-                        .getJSONObject(0)
-                        .getString("text")
+                        .getJSONObject("message")
+                        .getString("content")
+                        .trim()
 
-                    // Devolvemos el resultado a la Activity
+                    // Devolvemos el resultado
                     callback(output)
 
                 } catch (e: Exception) {
-                    // Si algo falla al leer el JSON
                     callback("Error procesando respuesta: ${e.message}\n$responseBody")
                 }
             }

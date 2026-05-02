@@ -1,71 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingTop="12dp"
-    android:paddingBottom="12dp">
-
+    android:padding="10dp"
+    android:background="@color/colorSurface">
+    <!-- Contenedor del item del historial -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
+        <!-- Columna con la info del medicamento -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
-
+            <!-- Nombre del medicamento -->
             <TextView
                 android:id="@+id/tvNombreMedicamento"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:textSize="22sp"
+                android:textSize="18sp"
+                android:textColor="@color/colorTextPrimary"
                 android:text="Nombre medicamento" />
-
+            <!-- Principio activo -->
             <TextView
                 android:id="@+id/tvPrincipioActivo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="4dp"
-                android:textSize="16sp"
+                android:paddingTop="2dp"
+                android:textSize="14sp"
+                android:textColor="@color/colorTextSecondary"
                 android:text="Principio activo" />
-
+            <!-- Fecha del escaneo -->
             <TextView
                 android:id="@+id/tvFechaEscaneo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="4dp"
-                android:textSize="16sp"
+                android:paddingTop="2dp"
+                android:textSize="13sp"
+                android:textColor="@color/colorTextSecondary"
                 android:text="Fecha" />
         </LinearLayout>
 
         <Button
             android:id="@+id/btnMasDetalles"
+            style="@style/BotonMedScan"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="0dp"
-            android:minWidth="0dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
-            android:layout_marginStart="10dp"
             android:text="Más detalles"
-            android:textAllCaps="false"
-            android:textColor="@color/btn_text"
-            android:textSize="11sp"
-            app:backgroundTint="@color/btn_blue_dark"
-            android:backgroundTintMode="src_in" />
+            android:textSize="12sp" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="12dp"
-        android:background="#BDBDBD" />
+        android:layout_marginTop="10dp"
+        android:background="#DDDDDD" />
 </LinearLayout>
-
