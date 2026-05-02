@@ -141,8 +141,9 @@ class EscaneoIAFragment : Fragment(R.layout.fragment_escaneo_ia) {
 
                 if (barcodes.isNotEmpty()) {
                     val codigo = barcodes[0].rawValue ?: ""
-                    textoResultado.text = "Código detectado: $codigo\nBuscando también por texto..."
-                    reconocerTexto(bitmap)
+                    textoResultado.text = "Código detectado: $codigo\nAnalizando código con IA..."
+                    analizarConIA(codigo)
+
                 } else {
                     reconocerTexto(bitmap)
                 }
@@ -166,14 +167,10 @@ class EscaneoIAFragment : Fragment(R.layout.fragment_escaneo_ia) {
 
                 // Si la IA no devuelve algo usable (por ejemplo, sin Nombre), NO guardamos
                 if (!mapa.containsKey("Nombre") || mapa["Nombre"].isNullOrBlank()) {
-                    textoResultado.text = """
-                    Texto no entendible. Toma otra foto.
-                    
-                    Respuesta de la IA:
-                    $resultadoIA
-                    """.trimIndent()
+                    textoResultado.text = "Foto no entendible. Scanea de nuevo."
                     return@runOnUiThread
                 }
+
 
                 // Creo el objeto Medicamento con los datos de la IA
                 val medicamento = Medicamento(

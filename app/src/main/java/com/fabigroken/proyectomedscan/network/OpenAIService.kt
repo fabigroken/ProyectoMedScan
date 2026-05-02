@@ -21,6 +21,7 @@ class OpenAIService {
         // Prompt que le dice a la IA cómo debe responder
         val prompt = """
         Tengo el nombre de un medicamento. 
+        Si el texto recibido es solo un número, interprétalo como un código de barras EAN/UPC.
         Completa la información usando tu conocimiento médico general y la normativa de España.
         
         REGLAS IMPORTANTES:
@@ -29,6 +30,8 @@ class OpenAIService {
         - La posología debe ser real, no lo que diga la caja.
         - No cambies los títulos ni agregues texto extra.
         - Para "Requiere receta", usa la normativa española.
+        - NUNCA uses “No disponible”, “No aplicable” o campos vacíos. Si falta información, usa valores típicos o aproximados basados en tu conocimiento médico.
+        - No expliques tus decisiones ni agregues comentarios entre paréntesis.
         
         FORMATO EXACTO:
         
