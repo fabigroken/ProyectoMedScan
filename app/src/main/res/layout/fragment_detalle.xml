@@ -39,7 +39,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/CampoTexto"
-            android:enabled="false" />
+            android:enabled="false"
+            android:focusable="false"
+            android:cursorVisible="false"
+            android:longClickable="false"
+            android:inputType="none" />
 
         <!-- NOMBRE -->
         <TextView
@@ -53,7 +57,11 @@
             android:id="@+id/etNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/CampoTexto" />
+            style="@style/CampoTexto"
+            android:focusable="false"
+            android:cursorVisible="false"
+            android:longClickable="false"
+            android:inputType="none" />
 
         <!-- PRINCIPIO ACTIVO -->
         <TextView
@@ -67,7 +75,11 @@
             android:id="@+id/etPrincipioActivo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/CampoTexto" />
+            style="@style/CampoTexto"
+            android:focusable="false"
+            android:cursorVisible="false"
+            android:longClickable="false"
+            android:inputType="none" />
 
         <!-- FRECUENCIA -->
         <TextView
@@ -81,7 +93,11 @@
             android:id="@+id/etFrecuencia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/CampoTexto" />
+            style="@style/CampoTexto"
+            android:focusable="false"
+            android:cursorVisible="false"
+            android:longClickable="false"
+            android:inputType="none" />
 
         <!-- PARA QUÉ SIRVE -->
         <TextView
@@ -95,7 +111,11 @@
             android:id="@+id/etParaQueSirve"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/CampoTexto" />
+            style="@style/CampoTexto"
+            android:focusable="false"
+            android:cursorVisible="false"
+            android:longClickable="false"
+            android:inputType="none" />
 
         <!-- CONTRAINDICACIONES -->
         <TextView
@@ -109,7 +129,11 @@
             android:id="@+id/etContraindicaciones"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/CampoTexto" />
+            style="@style/CampoTexto"
+            android:focusable="false"
+            android:cursorVisible="false"
+            android:longClickable="false"
+            android:inputType="none" />
 
         <!-- EFECTOS SECUNDARIOS -->
         <TextView
@@ -123,7 +147,11 @@
             android:id="@+id/etEfectosSecundarios"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/CampoTexto" />
+            style="@style/CampoTexto"
+            android:focusable="false"
+            android:cursorVisible="false"
+            android:longClickable="false"
+            android:inputType="none" />
 
         <!-- ADVERTENCIAS -->
         <TextView
@@ -137,7 +165,11 @@
             android:id="@+id/etAdvertencias"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/CampoTexto" />
+            style="@style/CampoTexto"
+            android:focusable="false"
+            android:cursorVisible="false"
+            android:longClickable="false"
+            android:inputType="none" />
 
         <!-- REQUIERE RECETA -->
         <TextView
@@ -151,7 +183,11 @@
             android:id="@+id/etReceta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/CampoTexto" />
+            style="@style/CampoTexto"
+            android:focusable="false"
+            android:cursorVisible="false"
+            android:longClickable="false"
+            android:inputType="none" />
 
         <!-- LABORATORIO -->
         <TextView
@@ -165,7 +201,11 @@
             android:id="@+id/etLaboratorio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/CampoTexto" />
+            style="@style/CampoTexto"
+            android:focusable="false"
+            android:cursorVisible="false"
+            android:longClickable="false"
+            android:inputType="none" />
 
         <!-- BOTÓN ELIMINAR -->
         <Button

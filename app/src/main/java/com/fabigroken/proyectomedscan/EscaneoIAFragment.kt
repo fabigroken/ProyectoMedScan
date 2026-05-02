@@ -19,6 +19,7 @@ import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.fabigroken.proyectomedscan.network.OpenAIService
 import java.io.File
 import android.app.Activity
+import android.content.pm.PackageManager
 
 class EscaneoIAFragment : Fragment(R.layout.fragment_escaneo_ia) {
 
@@ -50,13 +51,23 @@ class EscaneoIAFragment : Fragment(R.layout.fragment_escaneo_ia) {
         // Cuando el usuario quiere escanear texto
         botonOCR.setOnClickListener {
             modoEscaneo = "OCR"
-            abrirCamara()
+
+            if (tienePermisoCamara()) {
+                abrirCamara()
+            } else {
+                requestPermissions(arrayOf(android.Manifest.permission.CAMERA), 100)
+            }
         }
 
         // Cuando el usuario quiere escanear código de barras
         botonBarcode.setOnClickListener {
             modoEscaneo = "BARCODE"
-            abrirCamara()
+
+            if (tienePermisoCamara()) {
+                abrirCamara()
+            } else {
+                requestPermissions(arrayOf(android.Manifest.permission.CAMERA), 100)
+            }
         }
     }
 
@@ -97,6 +108,9 @@ class EscaneoIAFragment : Fragment(R.layout.fragment_escaneo_ia) {
 
         val intent = android.content.Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+
+        intent.addFlags(android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+        intent.addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
         launcherCamara.launch(intent)
     }
@@ -256,5 +270,25 @@ class EscaneoIAFragment : Fragment(R.layout.fragment_escaneo_ia) {
         }
 
         return mapa
+    }
+
+   //Permisos de camara
+    private fun tienePermisoCamara(): Boolean {
+        return requireContext().checkSelfPermission(android.Manifest.permission.CAMERA) ==
+                PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == 100 && grantResults.isNotEmpty() &&
+            grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+            abrirCamara()
+        } else {
+            textoResultado.text = "Permiso de cámara denegado"
+        }
     }
 }
