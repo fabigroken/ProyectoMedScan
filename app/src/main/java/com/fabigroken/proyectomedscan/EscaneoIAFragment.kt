@@ -147,6 +147,8 @@ class EscaneoIAFragment : Fragment(R.layout.fragment_escaneo_ia) {
     // Escaneo de código de barras
     private fun escanearCodigoBarras(bitmap: Bitmap) {
 
+        textoResultado.text = "Escaneando código de barras..."
+
         val image = InputImage.fromBitmap(bitmap, 0)
         val scanner = BarcodeScanning.getClient()
 

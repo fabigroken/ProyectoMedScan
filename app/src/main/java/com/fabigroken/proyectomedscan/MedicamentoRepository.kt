@@ -22,26 +22,26 @@ class MedicamentoRepository {
             .addOnFailureListener { onError(it) }
     }
 
-    // Guarda un medicamento solo si no existe otro con el mismo nombre .
+    // Guarda un medicamento solo si no existe otro con el mismo NOMBRE normalizado
     fun guardarSinDuplicar(
         medicamento: Medicamento,
         onSuccess: () -> Unit,
         onDuplicate: () -> Unit,
         onError: (Exception) -> Unit
     ) {
-        // Normalizamos el principio del nombre para evitar duplicados
-        val principioNormalizado = normalizarPrincipio(medicamento.principioActivo)
+        // Normalizamos el nombre para evitar duplicados
+        val nombreNormalizado = normalizarNombre(medicamento.nombre)
 
         collection
             .get()
             .addOnSuccessListener { result ->
 
-                // Revisamos si ya existe un medicamento con el mismo principio activo
+                // Revisamos si ya existe un medicamento con el mismo nombre normalizado
                 val yaExiste = result.documents.any { doc ->
                     val existente = doc.toObject(Medicamento::class.java)
                     existente != null &&
-                            normalizarPrincipio(existente.principioActivo)
-                                .equals(principioNormalizado, ignoreCase = true)
+                            normalizarNombre(existente.nombre)
+                                .equals(nombreNormalizado, ignoreCase = true)
                 }
 
                 if (yaExiste) {
@@ -56,6 +56,16 @@ class MedicamentoRepository {
                     .addOnFailureListener { onError(it) }
             }
             .addOnFailureListener { onError(it) }
+    }
+
+    // Normaliza el NOMBRE para evitar duplicados
+    private fun normalizarNombre(nombre: String): String {
+        return nombre
+            .lowercase()
+            .replace(Regex("\\d+"), "") // elimina números (20mg, 10mg, etc.)
+            .replace(Regex("[^a-zA-Záéíóúñ ]"), "") // elimina símbolos
+            .replace(Regex("\\s+"), " ") // limpia espacios
+            .trim()
     }
 
     // Normaliza el principio del nombre para evitar duplicados
