@@ -13,7 +13,9 @@ class OpenAIService {
     private val client = OkHttpClient()
 
     // API Key de Groq
-    private val apiKey = "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"
+    private val apiKey = "Como esto va al git quito mi " +
+            "clave para que no la baneen ni se comparta y " +
+            "solo estara en la app"
 
     // Función que envía el texto a la IA y recibe la respuesta
     fun analizarTexto(texto: String, callback: (String) -> Unit) {
@@ -32,6 +34,20 @@ class OpenAIService {
         - Para "Requiere receta", usa la normativa española.
         - NUNCA uses “No disponible”, “No aplicable” o campos vacíos. Si falta información, usa valores típicos o aproximados basados en tu conocimiento médico.
         - No expliques tus decisiones ni agregues comentarios entre paréntesis.
+        - NO uses frases como “no disponible”, “no está claro”, “no se sabe”, “suponiendo”, “probablemente”, “podría ser”, “asumo”, “interpreto”, “parece”, “no encuentro información”, “no hay datos”, “no tengo suficiente información”.
+        - NO digas que el texto es confuso, incompleto o poco claro.
+        - NO hagas comentarios sobre el OCR, la calidad del texto o la falta de contexto.
+        - NO digas que necesitas más información.
+        - Responde SIEMPRE con datos concretos, directos y sin justificar nada.
+        - Si la información no aparece explícitamente, usa la opción más común y aceptada en España sin mencionarlo.
+        - Para la frecuencia y cantidad, si no aparece en el texto, usa la posología estándar del medicamento en España.
+        - Para cualquier campo sin datos explícitos, responde con la opción más habitual según la práctica clínica española.
+        - NO menciones que estás “asumiendo”, “interpretando” o “deduciendo”.
+        - NO añadas explicaciones, aclaraciones ni comentarios adicionales.
+        - NO uses paréntesis para justificar nada.
+        - La frecuencia y cantidad SIEMPRE debe tener un valor real y clínicamente correcto, incluso si no aparece en el texto.
+        - Si el medicamento existe en España, SIEMPRE debes completar todos los campos con información real basada en tu conocimiento médico general, sin mencionar dificultades para encontrar datos.
+
         
         FORMATO EXACTO:
         

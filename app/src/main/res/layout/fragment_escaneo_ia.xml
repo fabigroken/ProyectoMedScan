@@ -46,16 +46,23 @@
             android:text="Escanear codigo de barras" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/textoResultado"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginTop="14dp"
-        android:background="@drawable/bg_medscan_surface"
-        android:padding="14dp"
-        android:text="Resultado aqui"
-        android:textColor="@color/colorTextPrimary" />
+        android:fillViewport="true">
+
+        <TextView
+            android:id="@+id/textoResultado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_medscan_surface"
+            android:padding="14dp"
+            android:text="Resultado aqui"
+            android:textColor="@color/colorTextPrimary" />
+    </ScrollView>
+
 
     <ImageView
         android:id="@+id/ivLogoFooterEscaneoIa"
