@@ -23,32 +23,32 @@ import android.content.pm.PackageManager
 
 class EscaneoIAFragment : Fragment(R.layout.fragment_escaneo_ia) {
 
-    // Texto donde muestro el resultado del OCR o IA
+    /** Texto donde muestro el resultado del OCR o IA */
     private lateinit var textoResultado: TextView
 
-    // Para saber si estoy escaneando OCR o código de barras
+    /** Para saber si estoy escaneando OCR o código de barras */
     private var modoEscaneo = "OCR"
 
-    // Archivo temporal donde guardo la foto
+    /** Archivo temporal donde guardo la foto */
     private lateinit var photoFile: File
     private lateinit var photoUri: Uri
 
-    // Repositorio para guardar en Firestore
+    /** Repositorio para guardar en Firestore */
     private val repository = MedicamentoRepository()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Botón para volver atrás
+        /** Botón para volver atrás */
         val btnVolver = view.findViewById<Button>(R.id.btnVolver)
         btnVolver.setOnClickListener { findNavController().popBackStack() }
 
-        // Botones del layout
+        /** Botones del layout */
         val botonOCR = view.findViewById<Button>(R.id.botonOCR)
         val botonBarcode = view.findViewById<Button>(R.id.botonBarcode)
         textoResultado = view.findViewById(R.id.textoResultado)
 
-        // Cuando el usuario quiere escanear texto
+        /** Cuando el usuario quiere escanear texto */
         botonOCR.setOnClickListener {
             modoEscaneo = "OCR"
 
@@ -59,7 +59,7 @@ class EscaneoIAFragment : Fragment(R.layout.fragment_escaneo_ia) {
             }
         }
 
-        // Cuando el usuario quiere escanear código de barras
+        /** Cuando el usuario quiere escanear código de barras */
         botonBarcode.setOnClickListener {
             modoEscaneo = "BARCODE"
 
@@ -71,7 +71,7 @@ class EscaneoIAFragment : Fragment(R.layout.fragment_escaneo_ia) {
         }
     }
 
-    // Lanzador de la cámara
+    /** Lanzador de la cámara */
     private val launcherCamara = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -95,7 +95,7 @@ class EscaneoIAFragment : Fragment(R.layout.fragment_escaneo_ia) {
         }
     }
 
-    // Abre la cámara usando FileProvider
+    /** Abre la cámara usando FileProvider */
     private fun abrirCamara() {
 
         photoFile = File.createTempFile("foto_", ".jpg", requireContext().cacheDir)
@@ -115,7 +115,7 @@ class EscaneoIAFragment : Fragment(R.layout.fragment_escaneo_ia) {
         launcherCamara.launch(intent)
     }
 
-    // Hace OCR sobre la imagen
+    /** Hace OCR sobre la imagen */
     private fun reconocerTexto(bitmap: Bitmap) {
 
         val image = InputImage.fromBitmap(bitmap, 0)
@@ -139,12 +139,12 @@ class EscaneoIAFragment : Fragment(R.layout.fragment_escaneo_ia) {
             }
     }
 
-    // Limpia saltos de línea del OCR
+    /** Limpia saltos de línea del OCR */
     private fun limpiarTextoOCR(texto: String): String {
         return texto.replace("\n", " ").trim()
     }
 
-    // Escaneo de código de barras
+    /** Escaneo de código de barras */
     private fun escanearCodigoBarras(bitmap: Bitmap) {
 
         textoResultado.text = "Escaneando código de barras..."
@@ -169,7 +169,7 @@ class EscaneoIAFragment : Fragment(R.layout.fragment_escaneo_ia) {
             }
     }
 
-    // Llama a la IA para analizar el texto
+    /** Llama a la IA para analizar el texto */
     private fun analizarConIA(texto: String) {
 
         val ia = OpenAIService()
@@ -178,17 +178,17 @@ class EscaneoIAFragment : Fragment(R.layout.fragment_escaneo_ia) {
 
             requireActivity().runOnUiThread {
 
-                // Parseo el texto de la IA a un mapa clave-valor
+                /** Parseo el texto de la IA a un mapa clave-valor */
                 val mapa = parsearResultadoIA(resultadoIA)
 
-                // Si la IA no devuelve algo usable (por ejemplo, sin Nombre), NO guardamos
+                /** Si la IA no devuelve algo usable (por ejemplo, sin Nombre), NO guardamos */
                 if (!mapa.containsKey("Nombre") || mapa["Nombre"].isNullOrBlank()) {
                     textoResultado.text = "Foto no entendible. Scanea de nuevo."
                     return@runOnUiThread
                 }
 
 
-                // Creo el objeto Medicamento con los datos de la IA
+                /** Creo el objeto Medicamento con los datos de la IA */
                 val medicamento = Medicamento(
                     id = "med_${System.currentTimeMillis()}",
                     nombre = mapa["Nombre"] ?: "",
@@ -205,7 +205,7 @@ class EscaneoIAFragment : Fragment(R.layout.fragment_escaneo_ia) {
                     fuenteInformacion = "OCR + IA"
                 )
 
-                // Mostrar esos 5 campos
+                /** Mostrar esos 5 campos */
                 val textoVisible = """
                 <b>Nombre</b><br>
                 ${mapa["Nombre"]}<br><br>
@@ -226,7 +226,7 @@ class EscaneoIAFragment : Fragment(R.layout.fragment_escaneo_ia) {
                 textoResultado.text = android.text.Html.fromHtml(textoVisible)
 
 
-                // Guardado automático SIN mostrar mensajes al usuario
+                /** Guardado automático SIN mostrar mensajes al usuario */
                 repository.guardarSinDuplicar(
                     medicamento,
                     onSuccess = { },
@@ -237,7 +237,7 @@ class EscaneoIAFragment : Fragment(R.layout.fragment_escaneo_ia) {
         }
     }
 
-    // Parser tolerante a errores, espacios, saltos y formatos raros
+    /** Parser tolerante a errores, espacios, saltos y formatos raros */
     private fun parsearResultadoIA(texto: String): Map<String, String> {
 
         val mapa = mutableMapOf<String, String>()
@@ -274,7 +274,7 @@ class EscaneoIAFragment : Fragment(R.layout.fragment_escaneo_ia) {
         return mapa
     }
 
-   //Permisos de camara
+   /** Permisos de camara */
     private fun tienePermisoCamara(): Boolean {
         return requireContext().checkSelfPermission(android.Manifest.permission.CAMERA) ==
                 PackageManager.PERMISSION_GRANTED

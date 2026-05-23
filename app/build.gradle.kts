@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
+    id("org.jetbrains.dokka") version "1.9.20"
 }
 
 android {
@@ -64,23 +65,26 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    // Librería para reconocimiento de texto (OCR)
+    /** Librería para reconocimiento de texto (OCR) */
     implementation("com.google.mlkit:text-recognition:16.0.0")
 
-    // Librería para leer códigos de barras
+    /** Librería para leer códigos de barras */
     implementation("com.google.mlkit:barcode-scanning:17.2.0")
-    // Librería para hacer peticiones HTTP a APIs
+    /** Librería para hacer peticiones HTTP a APIs */
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    // Convierte JSON a objetos Kotlin
+    /** Convierte JSON a objetos Kotlin */
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
 
-    // Librería OkHttp para hacer peticiones HTTP a Gemini
+    /** Librería OkHttp para hacer peticiones HTTP a Gemini */
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
-    // Librería de Firebase Firestore
+    /** Librería de Firebase Firestore */
     implementation("com.google.firebase:firebase-firestore-ktx:24.10.0")
 
-
-
 }
+
+
+    tasks.dokkaHtml.configure {
+        outputDirectory.set(file("$buildDir/dokka"))
+    }

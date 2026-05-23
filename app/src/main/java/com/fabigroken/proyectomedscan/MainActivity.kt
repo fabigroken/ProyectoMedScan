@@ -7,7 +7,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // activity_main ahora solo contiene el NavHostFragment
+        /** activity_main ahora solo contiene el NavHostFragment */
         setContentView(R.layout.activity_main)
     }
 }

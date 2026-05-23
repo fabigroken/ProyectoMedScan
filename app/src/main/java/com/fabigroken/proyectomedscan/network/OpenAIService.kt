@@ -6,21 +6,21 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.io.IOException
 
-// Servicio que manda el texto del OCR a la IA y devuelve la respuesta
+/** Servicio que manda el texto del OCR a la IA y devuelve la respuesta */
 class OpenAIService {
 
-    // Cliente HTTP para hacer la petición
+    /** Cliente HTTP para hacer la petición */
     private val client = OkHttpClient()
 
-    // API Key de Groq
+    /** API Key de Groq */
     private val apiKey = "Como esto va al git quito mi " +
             "clave para que no la baneen ni se comparta y " +
             "solo estara en la app"
 
-    // Función que envía el texto a la IA y recibe la respuesta
+    /** Función que envía el texto a la IA y recibe la respuesta */
     fun analizarTexto(texto: String, callback: (String) -> Unit) {
 
-        // Prompt que le dice a la IA cómo debe responder
+        /** Prompt que le dice a la IA cómo debe responder */
         val prompt = """
         Tengo el nombre de un medicamento. 
         Si el texto recibido es solo un número, interprétalo como un código de barras EAN/UPC.
@@ -68,25 +68,25 @@ class OpenAIService {
         $texto
         """.trimIndent()
 
-        // Construcción del JSON para la API de Groq
+        /** Construcción del JSON para la API de Groq */
         val json = JSONObject()
         json.put("model", "llama-3.1-8b-instant")
 
         val messages = org.json.JSONArray()
         val userMsg = JSONObject()
 
-        // Mensaje que enviamos a la IA
+        /** Mensaje que enviamos a la IA */
         userMsg.put("role", "user")
         userMsg.put("content", prompt)
         messages.put(userMsg)
 
         json.put("messages", messages)
 
-        // Cuerpo de la petición
+        /** Cuerpo de la petición */
         val body = json.toString()
             .toRequestBody("application/json".toMediaType())
 
-        // Petición HTTP a Groq
+        /** Petición HTTP a Groq */
         val request = Request.Builder()
             .url("https://api.groq.com/openai/v1/chat/completions")
             .post(body)
@@ -94,30 +94,30 @@ class OpenAIService {
             .addHeader("Content-Type", "application/json")
             .build()
 
-        // Ejecutar la petición
+        /** Ejecutar la petición */
         client.newCall(request).enqueue(object : Callback {
 
-            // Error de red
+            /** Error de red */
             override fun onFailure(call: Call, e: IOException) {
                 callback("Error IA red: ${e.message}")
             }
 
-            // Respuesta de la IA
+            /** Respuesta de la IA */
             override fun onResponse(call: Call, response: Response) {
 
                 val responseBody = response.body?.string()
 
-                // Si la API falla
+                /** Si la API falla */
                 if (!response.isSuccessful || responseBody == null) {
                     callback("Error IA HTTP ${response.code}: $responseBody")
                     return
                 }
 
                 try {
-                    // Parseamos la respuesta JSON
+                    /** Parseamos la respuesta JSON */
                     val jsonResp = JSONObject(responseBody)
 
-                    // Extraemos el texto generado por la IA
+                    /** Extraemos el texto generado por la IA */
                     val output = jsonResp
                         .getJSONArray("choices")
                         .getJSONObject(0)
@@ -125,7 +125,7 @@ class OpenAIService {
                         .getString("content")
                         .trim()
 
-                    // Devolvemos el resultado
+                    /** Devolvemos el resultado */
                     callback(output)
 
                 } catch (e: Exception) {

@@ -13,7 +13,7 @@ class DetalleFragment : Fragment(R.layout.fragment_detalle) {
     private val repository = MedicamentoRepository()
     private var medicamentoActual: Medicamento? = null
 
-    // Campos del layout
+    /** Campos del layout */
     private lateinit var etId: EditText
     private lateinit var etNombre: EditText
     private lateinit var etPrincipioActivo: EditText
@@ -25,18 +25,18 @@ class DetalleFragment : Fragment(R.layout.fragment_detalle) {
     private lateinit var etReceta: EditText
     private lateinit var etLaboratorio: EditText
 
-    // Solo queda el botón eliminar
+    /** Solo queda el botón eliminar */
     private lateinit var btnEliminar: Button
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Botón volver
+        /** Botón volver */
         view.findViewById<Button>(R.id.btnVolver).setOnClickListener {
             findNavController().popBackStack()
         }
 
-        // Conectar campos
+        /** Conectar campos */
         etId = view.findViewById(R.id.etId)
         etNombre = view.findViewById(R.id.etNombre)
         etPrincipioActivo = view.findViewById(R.id.etPrincipioActivo)
@@ -50,7 +50,7 @@ class DetalleFragment : Fragment(R.layout.fragment_detalle) {
 
         btnEliminar = view.findViewById(R.id.btnEliminar)
 
-        // Obtener ID del medicamento
+        /** Obtener ID del medicamento */
         val id = arguments?.getString("medicamentoId")
 
         if (id.isNullOrBlank()) {
@@ -59,10 +59,10 @@ class DetalleFragment : Fragment(R.layout.fragment_detalle) {
             return
         }
 
-        // Cargar datos desde Firestore
+        /** Cargar datos desde Firestore */
         cargarMedicamento(id)
 
-        // Botón eliminar
+        /** Botón eliminar */
         btnEliminar.setOnClickListener {
             val med = medicamentoActual ?: return@setOnClickListener
 
@@ -79,7 +79,7 @@ class DetalleFragment : Fragment(R.layout.fragment_detalle) {
         }
     }
 
-    // Cargar datos desde Firestore
+    /** Cargar datos desde Firestore */
     private fun cargarMedicamento(id: String) {
 
         repository.obtenerMedicamentoPorId(
@@ -94,7 +94,7 @@ class DetalleFragment : Fragment(R.layout.fragment_detalle) {
 
                 medicamentoActual = med
 
-                // Rellenar campos
+                /** Rellenar campos */
                 etId.setText(med.id)
                 etNombre.setText(med.nombre)
                 etPrincipioActivo.setText(med.principioActivo)

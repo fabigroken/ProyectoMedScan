@@ -13,34 +13,34 @@ import androidx.recyclerview.widget.RecyclerView
 
 class HistorialFragment : Fragment(R.layout.fragment_historial) {
 
-    // Repositorio que maneja Firestore
+    /** Repositorio que maneja Firestore */
     private lateinit var repository: MedicamentoRepository
 
-    // Adaptador del RecyclerView
+    /** Adaptador del RecyclerView */
     private lateinit var adapter: MedicamentoAdapter
 
-    // Lista y texto de vacio
+    /** Lista y texto de vacio */
     private lateinit var rvHistorial: RecyclerView
     private lateinit var tvEmpty: TextView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Botón para volver atrás
+        /** Botón para volver atrás */
         val btnVolver = view.findViewById<Button>(R.id.btnVolver)
         btnVolver.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        // Inicializamos el repositorio
+        /** Inicializamos el repositorio */
         repository = MedicamentoRepository()
 
-        // Conectamos los elementos del layout
+        /** Conectamos los elementos del layout */
         rvHistorial = view.findViewById(R.id.rvHistorial)
         tvEmpty = view.findViewById(R.id.tvEmptyHistorial)
 
-        // Adaptador del historial
-        // Cuando se toca un medicamento, se abre el detalle
+        /** Adaptador del historial */
+        /** Cuando se toca un medicamento, se abre el detalle */
         adapter = MedicamentoAdapter(emptyList()) { medicamento ->
             findNavController().navigate(
                 R.id.action_historialFragment_to_detalleFragment,
@@ -48,33 +48,33 @@ class HistorialFragment : Fragment(R.layout.fragment_historial) {
             )
         }
 
-        // Configuración del RecyclerView
+        /** Configuración del RecyclerView */
         rvHistorial.layoutManager = LinearLayoutManager(requireContext())
         rvHistorial.adapter = adapter
 
-        // Cargamos el historial al entrar
+        /** Cargamos el historial al entrar */
         cargarHistorial()
     }
 
     override fun onResume() {
         super.onResume()
-        // Cada vez que volvemos aquí, recargamos la lista
+        /** Cada vez que volvemos aquí, recargamos la lista */
         cargarHistorial()
     }
 
-    // Método que obtiene la lista de medicamentos desde Firestore
+    /** Método que obtiene la lista de medicamentos desde Firestore */
     private fun cargarHistorial() {
 
         repository.obtenerHistorial(
             onSuccess = { lista ->
 
-                // Actualizamos la lista del adaptador
+                /** Actualizamos la lista del adaptador */
                 adapter.actualizarLista(lista)
 
-                // Si no hay medicamentos, mostramos el texto de vacío
+                /** Si no hay medicamentos, mostramos el texto de vacío */
                 tvEmpty.visibility = if (lista.isEmpty()) View.VISIBLE else View.GONE
 
-                // Y ocultamos o mostramos la lista según corresponda
+                /** Y ocultamos o mostramos la lista según corresponda */
                 rvHistorial.visibility = if (lista.isEmpty()) View.GONE else View.VISIBLE
             },
             onError = { e ->
